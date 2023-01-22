@@ -89,7 +89,7 @@ var keyWrapTests = []struct {
 }
 
 func TestKeyWrap(t *testing.T) {
-	algorithms := []Algorithm{AES256_GCM_SHA256, XCHACHA20_POLY1305}
+	algorithms := []Algorithm{SM4_128_GCM, AES256_GCM_SHA256, XCHACHA20_POLY1305}
 	for _, a := range algorithms {
 		key, err := Random(a, "")
 		if err != nil {

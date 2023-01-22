@@ -20,6 +20,8 @@ const (
 	// XCHACHA20_POLY1305 is an algorithm that uses HChaCha20
 	// for key derivation and ChaCha20-Poly1305 for en/decryption.
 	XCHACHA20_POLY1305 Algorithm = "XCHACHA20-POLY1305"
+
+	SM4_128_GCM Algorithm = "SM4-128-GCM"
 )
 
 // String returns the Algorithm's string representation.
@@ -32,6 +34,8 @@ func (a Algorithm) KeySize() int {
 		return 256 / 8
 	case XCHACHA20_POLY1305:
 		return 256 / 8
+	case SM4_128_GCM:
+		return 256 / 16
 	case AlgorithmGeneric:
 		return 256 / 8 // For generic/unknown keys, return 256 bit.
 	default:

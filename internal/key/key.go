@@ -19,6 +19,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/emmansun/gmsm/sm4"
 	"github.com/minio/kes"
 	"github.com/minio/kes/internal/cpu"
 	"github.com/minio/kes/internal/fips"
@@ -324,6 +325,12 @@ func newAEAD(algorithm Algorithm, Key, IV []byte) (cipher.AEAD, error) {
 			return nil, err
 		}
 		return chacha20poly1305.New(sealingKey)
+	case SM4_128_GCM:
+		sm4, err := sm4.NewCipher(Key)
+		if err != nil {
+			return nil, err
+		}
+		return cipher.NewGCM(sm4)
 	default:
 		return nil, kes.ErrDecrypt
 	}
