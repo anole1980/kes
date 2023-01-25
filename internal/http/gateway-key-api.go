@@ -15,8 +15,6 @@ import (
 	"aead.dev/mem"
 	"github.com/minio/kes"
 	"github.com/minio/kes/internal/auth"
-	"github.com/minio/kes/internal/cpu"
-	"github.com/minio/kes/internal/fips"
 	"github.com/minio/kes/internal/key"
 )
 
@@ -51,13 +49,13 @@ func gatewayCreateKey(mux *http.ServeMux, config *GatewayConfig) API {
 			return
 		}
 
-		var algorithm kes.KeyAlgorithm
-		if fips.Enabled || cpu.HasAESGCM() {
-			algorithm = kes.AES256_GCM_SHA256
-		} else {
-			algorithm = kes.XCHACHA20_POLY1305
-		}
-
+		// var algorithm kes.KeyAlgorithm
+		// if fips.Enabled || cpu.HasAESGCM() {
+		// 	algorithm = kes.AES256_GCM_SHA256
+		// } else {
+		// 	algorithm = kes.XCHACHA20_POLY1305
+		// }
+		algorithm := kes.SM4_128_GCM
 		key, err := key.Random(algorithm, auth.Identify(r))
 		if err != nil {
 			Error(w, err)

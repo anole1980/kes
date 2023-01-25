@@ -51,6 +51,8 @@ func Len(a kes.KeyAlgorithm) int {
 		return 256 / 8
 	case kes.XCHACHA20_POLY1305:
 		return 256 / 8
+	case kes.SM4_128_GCM:
+		return 256 / 16
 	case kes.KeyAlgorithmUndefined:
 		return 256 / 8 // For generic/unknown keys, return 256 bit.
 	default:
@@ -314,8 +316,8 @@ func newAEAD(algorithm kes.KeyAlgorithm, Key, IV []byte) (cipher.AEAD, error) {
 			return nil, err
 		}
 		return chacha20poly1305.New(sealingKey)
-	case SM4_128_GCM:
-		sm4, err := sm4.NewCipher(Key)
+	case kes.SM4_128_GCM:
+		sm4, err := sm4.NewCipher(Key[:16])
 		if err != nil {
 			return nil, err
 		}
